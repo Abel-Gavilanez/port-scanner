@@ -1,0 +1,20 @@
+[project]
+name = "port-scanner"
+version = "1.0.0"
+description = "Escaner de puertos TCP asincrono, con fines educativos."
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "MIT" }
+
+[project.scripts]
+port-scanner = "port_scanner.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "pytest-asyncio>=0.21"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["port_scanner"]
