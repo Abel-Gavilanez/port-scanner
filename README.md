@@ -49,6 +49,9 @@ python run_scanner.py 127.0.0.1 -p 1-1024 --banners --json resultado.json --csv 
 # Instalado como comando (tras pip install -e .)
 port-scanner 127.0.0.1 -p 1-500
 ```
+### Ejemplo de salida
+
+<img width="816" height="283" alt="Ejemplo de escaneo contra scanme.nmap.org" src="https://github.com/user-attachments/assets/26e50752-9da0-414f-be34-8ef45bf99f80" />
 
 ### Opciones principales
 
