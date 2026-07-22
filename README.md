@@ -103,4 +103,4 @@ pytest tests/ -v
 
 ## Licencia
 
-MIT — libre para usar con fines educativos.
+[MIT](LICENSE) — libre para usar con fines educativos.
