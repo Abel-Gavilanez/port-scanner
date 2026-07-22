@@ -1,4 +1,6 @@
 # Port Scanner
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 Escáner de puertos TCP asíncrono, escrito en Python puro (sin dependencias
 externas para el núcleo). Proyecto educativo para practicar sockets,
@@ -26,7 +28,7 @@ ciberseguridad.
 ## Instalación
 
 ```bash
-git clone <tu-repo>
+git clone https://github.com/Abel-Gavilanez/port-scanner.git
 cd port-scanner
 pip install -e ".[dev]"
 ```
