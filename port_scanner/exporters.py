@@ -33,6 +33,8 @@ def print_human_readable(report: ScanReport, show_all: bool = False) -> None:
     print(f"  Objetivo:   {report.target} ({report.resolved_ip})")
     print(f"  Rango:      {report.port_range[0]}-{report.port_range[1]}")
     print(f"  Duracion:   {report.duration_seconds:.2f}s")
+    if report.os_guess is not None:
+        print(f"  SO estimado: {report.os_guess.summary}")
     print("=" * 56)
 
     rows = report.results if show_all else report.open_ports

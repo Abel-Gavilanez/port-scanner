@@ -6,6 +6,8 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 
+from .os_detection import OsGuess
+
 
 class PortState(str, Enum):
     """Estado posible de un puerto escaneado."""
@@ -35,6 +37,7 @@ class ScanReport:
     started_at: datetime
     finished_at: datetime | None = None
     results: list[PortResult] = field(default_factory=list)
+    os_guess: "OsGuess | None" = None
 
     @property
     def duration_seconds(self) -> float:
@@ -55,6 +58,15 @@ class ScanReport:
             "finished_at": self.finished_at.isoformat() if self.finished_at else None,
             "duration_seconds": round(self.duration_seconds, 3),
             "open_ports_count": len(self.open_ports),
+            "os_guess": (
+                {
+                    "observed_ttl": self.os_guess.observed_ttl,
+                    "estimated_initial_ttl": self.os_guess.estimated_initial_ttl,
+                    "guessed_os": self.os_guess.guessed_os,
+                }
+                if self.os_guess is not None
+                else None
+            ),
             "results": [
                 {
                     "port": r.port,

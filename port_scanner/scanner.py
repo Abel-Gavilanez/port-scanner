@@ -16,6 +16,7 @@ from datetime import datetime, timezone
 
 from .known_ports import lookup_service
 from .models import PortResult, PortState, ScanReport
+from .os_detection import detect_os_by_ttl
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +39,10 @@ class PortScanner:
     grab_banners:
         Si es True, intenta leer los primeros bytes que el servicio envia
         al conectar (util para identificar version de software).
+    detect_os:
+        Si es True, hace un ping ICMP al objetivo y estima su familia de
+        SO (Windows/Linux/etc.) a partir del TTL de la respuesta. Es una
+        heuristica -- ver docstring de `os_detection.py` para limitaciones.
     """
 
     def __init__(
@@ -45,6 +50,7 @@ class PortScanner:
         concurrency: int = 500,
         timeout: float = 1.0,
         grab_banners: bool = False,
+        detect_os: bool = False,
     ) -> None:
         if concurrency < 1:
             raise ValueError("concurrency debe ser >= 1")
@@ -54,6 +60,7 @@ class PortScanner:
         self.concurrency = concurrency
         self.timeout = timeout
         self.grab_banners = grab_banners
+        self.detect_os = detect_os
         self._semaphore = asyncio.Semaphore(concurrency)
 
     @staticmethod
@@ -123,6 +130,12 @@ class PortScanner:
         ip = self.resolve_host(target)
         started_at = datetime.now(timezone.utc)
 
+        # La deteccion de SO (un ping) se lanza en paralelo con el escaneo
+        # de puertos, no antes ni despues, para no sumar tiempo extra.
+        os_guess_task = (
+            asyncio.create_task(detect_os_by_ttl(ip)) if self.detect_os else None
+        )
+
         ports = range(start_port, end_port + 1)
         total = len(ports)
         completed = 0
@@ -138,6 +151,8 @@ class PortScanner:
 
         results.sort(key=lambda r: r.port)
 
+        os_guess = await os_guess_task if os_guess_task is not None else None
+
         return ScanReport(
             target=target,
             resolved_ip=ip,
@@ -145,4 +160,5 @@ class PortScanner:
             started_at=started_at,
             finished_at=datetime.now(timezone.utc),
             results=results,
+            os_guess=os_guess,
         )

@@ -51,6 +51,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="Intenta capturar el banner de cada servicio detectado (mas lento)"
     )
     parser.add_argument(
+        "--detect-os", action="store_true",
+        help="Estima el SO del objetivo mediante el TTL de un ping ICMP (heuristico)"
+    )
+    parser.add_argument(
         "--all", action="store_true", dest="show_all",
         help="Muestra tambien puertos cerrados/filtrados, no solo abiertos"
     )
@@ -67,6 +71,7 @@ async def _run(args: argparse.Namespace) -> int:
         concurrency=args.concurrency,
         timeout=args.timeout,
         grab_banners=args.banners,
+        detect_os=args.detect_os,
     )
     try:
         report = await scanner.scan(

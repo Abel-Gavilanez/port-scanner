@@ -47,6 +47,7 @@ async def test_detects_closed_port():
     # En Windows, dependiendo del firewall, la conexion puede no responder
     # nada y expirar por timeout -> FILTERED. Ambos son resultados
     # correctos del escaner; lo unico incorrecto seria marcarlo OPEN.
+    
     assert report.results[0].state in (PortState.CLOSED, PortState.FILTERED)
 
 
