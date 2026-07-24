@@ -51,7 +51,8 @@ port-scanner 127.0.0.1 -p 1-500
 ```
 ### Ejemplo de salida
 
-<img width="816" height="283" alt="Ejemplo de escaneo contra scanme.nmap.org" src="https://github.com/user-attachments/assets/26e50752-9da0-414f-be34-8ef45bf99f80" />
+<img width="953" height="272" alt="image" src="https://github.com/user-attachments/assets/022c8b02-9359-48bd-8613-864ad4694389" />
+
 
 ### Opciones principales
 
